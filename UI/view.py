@@ -34,7 +34,7 @@ class View(ft.UserControl):
         self._ddcolor = ft.Dropdown(label="Colore")
 
         # button for the "creat graph" reply
-        self.btn_graph = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handle_graph)
+        self.btn_graph = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handle_graph, disabled=True)
         row1 = ft.Row([self._ddyear,self._ddcolor, self.btn_graph],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)

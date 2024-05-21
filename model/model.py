@@ -9,6 +9,8 @@ class Model:
         self.grafo = nx.Graph()
         self.idProduct = {}
         self.sales = []
+        self.solBest = None
+        self.nodoPartenza = None
 
 
     def addColors(self):
@@ -40,7 +42,37 @@ class Model:
         # print(self.getNumNodes())
         # print(self.getNumEdges())
 
+    def ricercaPercorso(self, product):
+        self.solBest = []
+        self.nodoPartenza = product
+        self.ricorsione(product, [], [])
 
+
+    def ricorsione(self, product, parziale, listaNodi):
+        archi_uscenti = self.grafo.edges(product, data=True)
+        proseguo = False
+        arcoPiuLungo = None
+        for arco in archi_uscenti:
+            if len(parziale) == 0:
+                proseguo = True
+            elif arco[2]["weight"] >= parziale[-1][2]["weight"]:
+                proseguo = True
+                if arcoPiuLungo is None or arco[2]["weight"] > arcoPiuLungo[2]["weight"]:
+                    arcoPiuLungo = arco
+
+        #condizione terminale
+        if not proseguo:
+            if len(parziale) > len(self.solBest) and :
+                self.solBest = parziale
+
+        else:
+
+
+
+
+
+    def checkVincoli(self):
+        pass
 
     def getNumNodes(self):
         return len(self.grafo.nodes)

@@ -11,6 +11,7 @@ class Controller:
         self._listColor = []
         self._color = None
         self._year = None
+        self.grafo = None
 
     def fillDD(self):
         #riempimento dd year
@@ -32,6 +33,8 @@ class Controller:
             self._view.txtOut.controls.append(ft.Text(f"Anno o colore non selezionati"))
             return
         else:
+            self._view._ddnode.disabled = False
+            self._view.btn_search.disabled = False
             self._year = int(self._view._ddyear.value)
             self._color = self._view._ddcolor.value
             grafo = self._model.createGraph(self._color, self._year)
@@ -56,11 +59,18 @@ class Controller:
                 if lista_nodi_migliori.count(j)>1 and j not in lista_ripetuti:
                     lista_ripetuti.append(j)
             self._view.txtOut.controls.append(ft.Text(f"I nodi ripetuti sono: {lista_ripetuti}"))
+            self.fillDDProduct()
             self._view.update_page()
 
     def fillDDProduct(self):
-        pass
+        listaProduct = self._model.idProduct.values()
+        for p in listaProduct:
+            self._view._ddnode.options.append(ft.dropdown.Option(text=p.Product, key = p.Product_number))
+        self._view.update_page()
+
+
 
 
     def handle_search(self, e):
-        pass
+        product = self._view._ddnode.value
+        self._model.ricercaPercorso(int(product))

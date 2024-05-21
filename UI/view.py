@@ -45,10 +45,11 @@ class View(ft.UserControl):
         self.txtOut = ft.ListView(expand=1, spacing=10, padding=10, auto_scroll=True)
         self._page.controls.append(self.txtOut)
 
-        self._ddnode = ft.Dropdown(label="Product")
-        self.btn_search = ft.ElevatedButton(text="Cerca Percorso", on_click=self._controller.handle_search)
+        self._ddnode = ft.Dropdown(label="Product", disabled=True)
+        self.btn_search = ft.ElevatedButton(text="Cerca Percorso", on_click=self._controller.handle_search, disabled=True)
         row2 = ft.Row([self._ddnode, self.btn_search],
                       alignment=ft.MainAxisAlignment.CENTER)
+        #self._controller.fillDDProduct()
         self._page.controls.append(row2)
 
         self.txtOut2 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)

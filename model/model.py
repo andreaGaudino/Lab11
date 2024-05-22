@@ -51,9 +51,9 @@ class Model:
         self.nodoPartenza = product
         #print(self.grafo.edges)
         self.ricorsione(product, [], [])
-        print(len(self.solBest))
-        for i in self.solBest:
-            print(i[0], i[1], i[2]["weight"])
+        # print(len(self.solBest))
+        # for i in self.solBest:
+        #     print(i[0], i[1], i[2]["weight"])
         return len(self.solBest)
 
 
@@ -75,9 +75,9 @@ class Model:
         #condizione terminale
         if not proseguo:
             if len(parziale) > len(self.solBest):  # and listaNodi.__contains__(self.nodoPartenza):
-                print(len(parziale))
-                for i in parziale:
-                    print(i[0], i[1], i[2]["weight"])
+                # print(len(parziale))
+                # for i in parziale:
+                #     print(i[0], i[1], i[2]["weight"])
                 self.solBest = copy.deepcopy(parziale)
 
 

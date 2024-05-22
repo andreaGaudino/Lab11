@@ -1,3 +1,5 @@
+import copy
+
 import networkx as nx
 
 from database.DAO import DAO
@@ -52,33 +54,37 @@ class Model:
 
 
     def ricorsione(self, product, parziale, listaNodi):
+        print('entrooo')
         archi_uscenti = self.grafo.edges(product, data=True)
         proseguo = False
-        arcoPiuLungo = None
+        arcoPiuCorto = None
         for arco in archi_uscenti:
             if len(parziale) == 0:
                 proseguo = True
-                if arcoPiuLungo is None or arco[2]["weight"] > arcoPiuLungo[2]["weight"]:
-                    arcoPiuLungo = arco
+                if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
+                    arcoPiuCorto = arco
             elif arco[2]["weight"] >= parziale[-1][2]["weight"] and arco[1] not in listaNodi:
                 proseguo = True
-                if arcoPiuLungo is None or arco[2]["weight"] > arcoPiuLungo[2]["weight"]:
-                    arcoPiuLungo = arco
+                if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
+                    arcoPiuCorto = arco
 
         #condizione terminale
         if not proseguo:
-            if len(parziale) > len(self.solBest) and self.nodoPartenza in listaNodi:
-                self.solBest = parziale
+            if len(parziale) > len(self.solBest):  # and listaNodi.__contains__(self.nodoPartenza):
+                print(len(parziale))
+                for i in parziale:
+                    print(i[0], i[1], i[2]["weight"])
+                self.solBest = copy.deepcopy(parziale)
 
 
         else:
-            parziale.append(arcoPiuLungo)
+            parziale.append(arcoPiuCorto)
             listaNodi.append(product)
-            print(len(parziale),parziale)
-            self.ricorsione(arcoPiuLungo[1], parziale, listaNodi)
+
+            self.ricorsione(arcoPiuCorto[1], parziale, listaNodi)
+            print('esco')
             parziale.pop()
             listaNodi.pop()
-
 
 
 

@@ -37,8 +37,9 @@ class Controller:
             self._view.btn_search.disabled = False
             self._year = int(self._view._ddyear.value)
             self._color = self._view._ddcolor.value
-            grafo = self._model.createGraph(self._color, self._year)
             self._view.txtOut.clean()
+            grafo = self._model.createGraph(self._color, self._year)
+
             self._view.txtOut.controls.append(ft.Text(f"Grafo creato correttamente"))
             self._view.txtOut.controls.append(ft.Text(f"Il grafo ha {len(grafo.nodes)} nodi e {len(grafo.edges)} archi"))
 
@@ -63,9 +64,9 @@ class Controller:
             self._view.update_page()
 
     def fillDDProduct(self):
-        listaProduct = self._model.idProduct.values()
+        listaProduct = self._model.idProduct.keys()
         for p in listaProduct:
-            self._view._ddnode.options.append(ft.dropdown.Option(text=p.Product, key = p.Product_number))
+            self._view._ddnode.options.append(ft.dropdown.Option(key = p))
         self._view.update_page()
 
 

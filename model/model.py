@@ -50,6 +50,9 @@ class Model:
         self.nodoPartenza = product
         #print(self.grafo.edges)
         self.ricorsione(product, [], [])
+        print(len(self.solBest))
+        for i in self.solBest:
+            print(i[0], i[1], i[2]["weight"])
 
 
 
@@ -57,16 +60,16 @@ class Model:
         print('entrooo')
         archi_uscenti = self.grafo.edges(product, data=True)
         proseguo = False
-        arcoPiuCorto = None
+        #arcoPiuCorto = None
         for arco in archi_uscenti:
             if len(parziale) == 0:
                 proseguo = True
-                if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
-                    arcoPiuCorto = arco
+                # if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
+                #     arcoPiuCorto = arco
             elif arco[2]["weight"] >= parziale[-1][2]["weight"] and arco[1] not in listaNodi:
                 proseguo = True
-                if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
-                    arcoPiuCorto = arco
+                # if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
+                #     arcoPiuCorto = arco
 
         #condizione terminale
         if not proseguo:
@@ -78,13 +81,17 @@ class Model:
 
 
         else:
-            parziale.append(arcoPiuCorto)
-            listaNodi.append(product)
+            for n in archi_uscenti:
 
-            self.ricorsione(arcoPiuCorto[1], parziale, listaNodi)
-            print('esco')
-            parziale.pop()
-            listaNodi.pop()
+                if len(parziale) == 0 or (n[2]["weight"] >= parziale[-1][2]["weight"] and n[1] not in listaNodi):
+                    parziale.append(n)
+                    listaNodi.append(product)
+                    self.ricorsione(n[1], parziale, listaNodi)
+                    print('esco')
+                    parziale.pop()
+                    listaNodi.pop()
+
+
 
 
 

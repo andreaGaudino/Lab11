@@ -20,6 +20,7 @@ class Model:
         return self.colors
     def createGraph(self, color, year):
         self.grafo.clear()
+        self.idProduct ={}
         for p in DAO.getProductsByColor(color):
             self.idProduct[p.Product_number] = p
 
@@ -53,11 +54,11 @@ class Model:
         print(len(self.solBest))
         for i in self.solBest:
             print(i[0], i[1], i[2]["weight"])
-
+        return len(self.solBest)
 
 
     def ricorsione(self, product, parziale, listaNodi):
-        print('entrooo')
+        #print('entrooo')
         archi_uscenti = self.grafo.edges(product, data=True)
         proseguo = False
         #arcoPiuCorto = None
@@ -66,7 +67,7 @@ class Model:
                 proseguo = True
                 # if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
                 #     arcoPiuCorto = arco
-            elif arco[2]["weight"] >= parziale[-1][2]["weight"] and arco[1] not in listaNodi:
+            elif arco[2]["weight"] >= parziale[-1][2]["weight"] and (arco not in parziale and (arco[1], arco[0], self.grafo[arco[1]][arco[0]]) not in parziale):
                 proseguo = True
                 # if arcoPiuCorto is None or arco[2]["weight"] < arcoPiuCorto[2]["weight"]:
                 #     arcoPiuCorto = arco
@@ -83,11 +84,11 @@ class Model:
         else:
             for n in archi_uscenti:
 
-                if len(parziale) == 0 or (n[2]["weight"] >= parziale[-1][2]["weight"] and n[1] not in listaNodi):
+                if len(parziale) == 0 or (n[2]["weight"] >= parziale[-1][2]["weight"] and (n not in parziale and (n[1], n[0], self.grafo[n[1]][n[0]]) not in parziale)):
                     parziale.append(n)
                     listaNodi.append(product)
                     self.ricorsione(n[1], parziale, listaNodi)
-                    print('esco')
+                    #print('esco')
                     parziale.pop()
                     listaNodi.pop()
 

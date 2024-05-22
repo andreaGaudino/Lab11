@@ -35,9 +35,13 @@ class Controller:
         else:
             self._view._ddnode.disabled = False
             self._view.btn_search.disabled = False
+            self._view._ddnode.options = []
+            self._view._ddnode.update()
+            self._view.update_page()
             self._year = int(self._view._ddyear.value)
             self._color = self._view._ddcolor.value
             self._view.txtOut.clean()
+
             grafo = self._model.createGraph(self._color, self._year)
 
             self._view.txtOut.controls.append(ft.Text(f"Grafo creato correttamente"))
@@ -74,4 +78,7 @@ class Controller:
 
     def handle_search(self, e):
         product = self._view._ddnode.value
-        self._model.ricercaPercorso(int(product))
+        lunghezza = self._model.ricercaPercorso(int(product))
+        self._view.txtOut2.clean()
+        self._view.txtOut2.controls.append(ft.Text(f"Numero archi percorso più lungo: {lunghezza}"))
+        self._view.update_page()

@@ -37,6 +37,7 @@ class Controller:
             self._view.btn_search.disabled = False
             self._view._ddnode.options = []
             self._view._ddnode.update()
+            self._view.txtOut2.clean()
             self._view.update_page()
             self._year = int(self._view._ddyear.value)
             self._color = self._view._ddcolor.value
